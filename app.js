@@ -12,25 +12,39 @@ searchDiv.addEventListener("submit", (e) =>{
     loading.classList.add("show");
 
     const fetchWiki = async (search) => {
-        if(search !== ""){
+        try{
             console.log(search);
             const response = await fetch(`${url}${search}`);
             const data = await response.json();
             return data.query.search
         }
-        else {
-            content.innerHTML = "Please Enter Valid Search Term"
+        catch { 
+            loading.innerHTML = "Please Enter Valid Search Term"
         }
 
     }
 
     const display = async () => {
         let value = input.value;
-        
         const data = await fetchWiki(value);
-        console.log(data);
 
-        loading.classList.remove("show");
+        if(data.length > 0){
+            content.innerHTML = data
+                .map((item) => {
+                    const {title, snippet, pageid} = item;
+                    return `<a href="https://en.wikipedia.org/?curid=${pageid}">
+                                <div class="single-content">
+                                    <h2 class="single-title">${title}</h2>
+                                    <p class="single-text">${snippet}</p>
+                                </div>
+                            </a>`
+                })
+                .join("");
+            loading.classList.remove("show");    
+        }
+        else {
+            loading.innerHTML = "No Matching Results. Please Try Again."
+        }    
     }
 
     display();
