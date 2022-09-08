@@ -12,7 +12,7 @@ searchDiv.addEventListener("submit", (e) =>{
     loading.classList.add("show");
 
     const fetchWiki = async (search) => {
-        if(search !== " "){
+        if(search !== ""){
             console.log(search);
             const response = await fetch(`${url}${search}`);
             const data = await response.json();
