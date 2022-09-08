@@ -28,7 +28,6 @@ searchDiv.addEventListener("submit", (e) =>{
         let value = input.value;
         const data = await fetchWiki(value);
 
-        if(data.length > 0){
             content.innerHTML = data
                 .map((item) => {
                     const {title, snippet, pageid} = item;
@@ -41,10 +40,6 @@ searchDiv.addEventListener("submit", (e) =>{
                 })
                 .join("");
             loading.classList.remove("show");    
-        }
-        else {
-            loading.innerHTML = "No Matching Results. Please Try Again."
-        }    
     }
 
     display();
